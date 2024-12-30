@@ -1,11 +1,9 @@
-from fastapi import FastAPI
-from app.routers import user, task
+from app.backend.db import engine, Base
+from app.models.user import User
+from app.models.task import Task
+from sqlalchemy.schema import CreateTable
 
-app = FastAPI()
+Base.metadata.create_all(bind=engine)
 
-@app.get("/")
-async def welcome():
-    return {"message": "Welcome to Taskmanager"}
-
-app.include_router(task.router)
-app.include_router(user.router)
+print(CreateTable(User.__table__))
+print(CreateTable(Task.__table__))
